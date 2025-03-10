@@ -7,25 +7,23 @@ export function ChatMessageBubble(props: {
 	aiEmoji?: string
 	sources: any[]
 }) {
-	const colorClassName = props.message.role === "user" ? "bg-sky-600" : "bg-slate-50 text-black"
+	const colorClassName = props.message.role === "user" ? "bg-blue-600 text-white" : "bg-gray-100 text-black"
 	const alignmentClassName = props.message.role === "user" ? "ml-auto" : "mr-auto"
-	const prefix = props.message.role === "user" ? "🧑" : props.aiEmoji
+	const prefix = props.message.role === "user" ? "You : " : props.aiEmoji
 
 	const content = useMemo(() => {
 		return markdownToHtml(props.message.content)
 	}, [props.message.content])
 
 	return (
-		<div className={`${alignmentClassName} ${colorClassName} rounded px-4 py-2 max-w-[80%] mb-8 flex`}>
-			<div className="mr-2">{prefix}</div>
+		<div className={`${alignmentClassName} ${colorClassName} rounded-lg px-4 py-3 max-w-[80%] mb-4 flex shadow-lg`}>
+			<div className="mr-3">{prefix}</div>
 			<div className="whitespace-pre-wrap flex flex-col">
 				<div className="prose prose-lg max-w-none" dangerouslySetInnerHTML={{ __html: content }}></div>
 				{props.sources && props.sources.length ? (
-					<>
-						<code className="mt-4 mr-auto bg-slate-600 px-2 py-1 rounded">
-							<h2>🔍 Sources:</h2>
-						</code>
-						<code className="mt-1 mr-2 bg-slate-600 px-2 py-1 rounded text-xs">
+					<div className="mt-4">
+						<div className="text-sm font-semibold mb-2">🔍 Sources:</div>
+						<div className="text-xs bg-gray-200 p-2 rounded-lg">
 							{props.sources?.map((source, i) => (
 								<div className="mt-2" key={"source:" + i}>
 									{i + 1}. &quot;{source.pageContent}&quot;
@@ -39,8 +37,8 @@ export function ChatMessageBubble(props: {
 									)}
 								</div>
 							))}
-						</code>
-					</>
+						</div>
+					</div>
 				) : (
 					""
 				)}
